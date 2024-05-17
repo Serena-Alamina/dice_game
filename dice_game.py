@@ -3,14 +3,16 @@
 import os
 import random
 
-from dice_module import roll_dice # Imports the roll_dice function from the module
-
 print("Welcome to my Dice Game!")
+
+# I would add the Function to roll three six-sided dice in this script.
+def roll_dice():
+    return [random.randint(1, 6) for _ in range(3)]  ## simpiler way to roll dice, the for in range(3) calls it 3 times. instead of doing individual rolls.
 
 # Function to play a turn
 def play_turn():
-    fixed_dice = []
-    score = 0
+    fixed_dice = []  # Keeps track of fixed dice values (pairs)
+    score = 0  # Initialize score for the turn
 
     while True:
         # Roll the dice
@@ -22,7 +24,7 @@ def play_turn():
             print("Tuple out! Turn ends with 0 points.")
             return 0
         
-        # Check for fixed dice
+        # Check for fixed dice (pairs) and add them to fixed_dice list
         for die in dice:
             if dice.count(die) == 2 and die not in fixed_dice:
                 fixed_dice.append(die)
@@ -31,24 +33,25 @@ def play_turn():
         score = sum(dice)
 
         # Ask the player if they want to roll again
-        if len(fixed_dice) < 3:
+        if len(fixed_dice) < 3:  # Player can roll again if there are less than 3 fixed dice
             choice = input("Roll again? (y/n): ")
-            if choice.lower() != 'y':
+            if choice.lower() != 'y':  # End turn if player chooses not to roll again
                 break
-        else:
+        else:  # End turn if there are 3 fixed dice
             break
 
     print(f"Turn ends with a score of {score} points.")
     return score
 
-# main game loop :D
+# Main game loop
 def play_game():
+    # Get number of players and target score
     num_players = int(input("Enter the number of players: "))
     target_score = int(input("Enter the target score to reach: "))
-    total_turns = 0 # Keeps track of the total number of turns
-    current_turn = 1    
+    total_turns = 0  # Keeps track of the total number of turns
+    current_turn = 1  # Initialize current turn number
 
-    player_scores = [0] * num_players
+    player_scores = [0] * num_players  # Initialize scores for all players
 
     # The game loop
     while True:
@@ -71,7 +74,7 @@ def play_game():
         if total_turns >= 5:
             break
     
-    # Determines the winner if the target score wasn't reached
+    # Determine the winner if the target score wasn't reached
     max_score = max(player_scores)
     winners = [player + 1 for player, score in enumerate(player_scores) if score == max_score]
     if len(winners) == 1:
@@ -80,7 +83,7 @@ def play_game():
         print(f"\nIt's a tie! Players {', '.join(map(str, winners))} have the highest score of {max_score}.")
 
 # Start the game
-while True: # Continuously calls 'play_game' until the players choose not to play again
+while True:  # Continuously calls 'play_game' until the players choose not to play again
     play_game()
     
     # Prompt players if they want to play again
